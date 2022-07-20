@@ -16,6 +16,3 @@ class Twitter:
     def tweet(self, message):
         self.api.update_status(message)
 
-
-twitter = Twitter()
-twitter.tweet("test")

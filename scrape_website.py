@@ -11,14 +11,14 @@ class Stock:
         self.service = Service(self.chrome_driver_path)
         self.driver = webdriver.Chrome(service=self.service)
 
-    def load_url(self):
+    def check_stock(self):
+        """checks to see if the defined CSS selector says 'sold out'. Returns True if item is in stock, and False if it's
+        not """
+
         # load the URL, wait for all the javascript elements to load
         self.driver.get(self.url)
         self.driver.implicitly_wait(10)
 
-    def check_stock(self):
-        """checks to see if the defined CSS selector says 'sold out'. Returns True if item is in stock, and False if it's
-        not """
         # exception handling
         try:
             stock_string = self.driver.find_element(By.CSS_SELECTOR,
@@ -36,10 +36,3 @@ class Stock:
             return False
         else:
             return True
-
-
-stock = Stock()
-stock.load_url()
-print(stock.check_stock())
-# TODO figure out why I can't make this exit during exception handling in the function/class itself
-stock.driver.quit()
