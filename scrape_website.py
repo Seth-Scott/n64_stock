@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 
 class Stock:
@@ -9,7 +10,12 @@ class Stock:
         self.chrome_driver_path = "./chromedriver"
         self.url = 'https://www.nintendo.com/store/products/nintendo-64-controller/'
         self.service = Service(self.chrome_driver_path)
-        self.driver = webdriver.Chrome(service=self.service)
+        # below makes chrome run in headless mode, sets an emulated resolution
+        self.chrome_options = Options()
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--window-size=1920x1080")
+        # remove chrome_options kwarg below to disable headless mode
+        self.driver = webdriver.Chrome(service=self.service, chrome_options=self.chrome_options)
 
     def check_stock(self):
         """checks to see if the defined CSS selector says 'sold out'. Returns True if item is in stock, and False if it's
